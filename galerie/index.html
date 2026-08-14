@@ -18,41 +18,12 @@
       <span class="brand-mark">◆</span>
       <span class="brand-name">Home</span>
     </a>
-    <div id="auth-area" class="auth-area">
-      <button id="signin-btn" class="btn btn-primary">Mit Google anmelden</button>
-      <button id="signout-btn" class="btn btn-ghost hidden">Abmelden</button>
-    </div>
   </header>
 
   <main id="app">
 
-    <!-- Zustand: nicht angemeldet -->
-    <section id="view-signedout" class="view">
-      <div class="hero">
-        <div class="hero-globe" aria-hidden="true">
-          <svg viewBox="0 0 200 200" class="globe-svg">
-            <circle cx="100" cy="100" r="88" class="globe-outline"></circle>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-lat" style="ry:34"></ellipse>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-lat" style="ry:60"></ellipse>
-            <line x1="12" y1="100" x2="188" y2="100" class="globe-lat-line"></line>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-meridian m1"></ellipse>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-meridian m2"></ellipse>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-meridian m3"></ellipse>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-meridian m4"></ellipse>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-meridian m5"></ellipse>
-            <ellipse cx="100" cy="100" rx="88" ry="88" class="globe-meridian m6"></ellipse>
-          </svg>
-        </div>
-        <p class="hero-globe-text">Platzhaltertext — wird noch ergänzt</p>
-
-        <p class="eyebrow">Schritt 01 — Zugang</p>
-        <h1>Deine Sammlung, sortiert wie ein Ausstellungsraum.</h1>
-        <p class="hero-sub">Melde dich mit dem Google-Konto an, das deine Fotoordner in Drive verwaltet. Nur Lesezugriff, nichts wird verändert.</p>
-      </div>
-    </section>
-
     <!-- Zustand: lädt -->
-    <section id="view-loading" class="view hidden">
+    <section id="view-loading" class="view">
       <p class="status-text"><span id="loading-label">Sammlung wird geöffnet …</span></p>
     </section>
 
@@ -65,7 +36,7 @@
     <!-- Zustand: Kategorien-Übersicht -->
     <section id="view-categories" class="view hidden">
       <div class="section-head">
-        <p class="eyebrow">Schritt 02 — Räume</p>
+        <p class="eyebrow">Schritt 01 — Räume</p>
         <h2>Kategorien</h2>
       </div>
       <div id="category-grid" class="category-grid"></div>
@@ -106,8 +77,6 @@
     </div>
   </div>
 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="config.js"></script>
   <script src="app.js"></script>
 
   <footer class="site-footer">
