@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Datenschutz — Die Welt mit meinen Augen</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400&family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="landing.css">
 </head>
 <body class="legal-page">
@@ -26,50 +24,49 @@
 
     <h2>2. Kurzfassung</h2>
     <p>
-      Diese Website bindet für die Anmeldung und den Bilderabruf Dienste von
-      Google ein (Google-Anmeldung, Google Drive) und lädt Schriftarten von
-      Google Fonts nach. Es werden keine eigenen Analyse- oder
-      Tracking-Tools, keine Werbung und keine eigenen Cookies zur
-      Nutzerverfolgung eingesetzt.
+      Diese Website bindet für den Bilderabruf Dienste von Google ein
+      (Google Drive, Bild-Auslieferung über Google-Server). Schriftarten
+      sind lokal auf diesem Server gehostet, es besteht dafür keine
+      Verbindung zu Google. Eine Anmeldung ist für Besucher nicht
+      erforderlich. Es werden keine eigenen Analyse- oder Tracking-Tools,
+      keine Werbung und keine eigenen Cookies zur Nutzerverfolgung
+      eingesetzt.
     </p>
 
-    <h2>3. Google-Anmeldung (Google Identity Services)</h2>
+    <h2>3. Kein Google-Login für Besucher — serverseitiger Zugriff</h2>
     <p>
-      Der Zugriff auf die Galerie erfolgt über eine Anmeldung mit deinem
-      Google-Konto (OAuth 2.0). Dabei erhält diese Website ein zeitlich
-      begrenztes Zugriffstoken, das ausschließlich im Arbeitsspeicher deines
-      Browsers gehalten wird — es wird nicht auf einem Server gespeichert und
-      nicht in Cookies oder im lokalen Speicher abgelegt. Nach Schließen des
-      Browser-Tabs bzw. nach Ablauf des Tokens ist eine erneute Anmeldung
-      erforderlich. Anbieter dieses Dienstes ist Google Ireland Limited,
-      Gordon House, Barrow Street, Dublin 4, Irland. Details entnimmst du der
-      <a href="https://policies.google.com/privacy" class="inline-link" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.
-      Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung der
-      Galerie-Funktion) bzw. Art. 6 Abs. 1 lit. a DSGVO (Einwilligung durch
-      aktive Anmeldung).
+      Die Galerie ist öffentlich zugänglich; ein eigenes Google-Konto oder
+      eine Anmeldung ist zum Betrachten nicht erforderlich. Die Fotografien
+      werden im Hintergrund von einer Server-Funktion abgerufen, die mit
+      meinem eigenen, dauerhaft hinterlegten Google-Zugang auf den
+      betreffenden Drive-Ordner zugreift. Dein Browser lädt die
+      Bild-Vorschauen dabei direkt von Servern von Google (siehe Punkt 4);
+      eigene Zugangsdaten oder Tokens deinerseits sind dafür nicht nötig.
     </p>
 
-    <h2>4. Zugriff auf Google Drive</h2>
+    <h2>4. Zugriff auf Google Drive und Bildauslieferung</h2>
     <p>
-      Nach der Anmeldung greift die Website lesend auf einen von mir
-      festgelegten Google-Drive-Ordner zu, um die dort abgelegten
-      Fotografien und deren Metadaten (u. a. Dateiname, ggf. gespeicherte
-      GPS-Koordinaten) anzuzeigen. Dieser Zugriff ist auf Lesen beschränkt
+      Die Server-Funktion greift lesend auf einen festgelegten
+      Google-Drive-Ordner zu, um die dort abgelegten Fotografien und deren
+      Metadaten (u. a. Dateiname, ggf. gespeicherte GPS-Koordinaten,
+      Bildbeschreibung) anzuzeigen. Dieser Zugriff ist auf Lesen beschränkt
       (Scope <code>drive.readonly</code>); es werden keine Dateien verändert
-      oder gelöscht. Die abgerufenen Bilddaten werden nicht dauerhaft auf
-      einem eigenen Server gespeichert, sondern bei jedem Seitenaufruf direkt
-      von Google Drive geladen.
+      oder gelöscht. Für die Anzeige der Bild-Vorschauen lädt dein Browser
+      diese direkt von Google-Servern (Google LLC bzw. Google Ireland
+      Limited) — dabei wird deine IP-Adresse an Google übertragen. Nur der
+      Download der Originaldatei läuft über eine eigene Server-Funktion
+      dieser Website, ohne dass Google dabei deine IP-Adresse erhält.
+      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
+      an einer funktionierenden, öffentlich zugänglichen Fotogalerie).
     </p>
 
-    <h2>5. Google Fonts</h2>
+    <h2>5. Schriftarten (lokal gehostet)</h2>
     <p>
-      Diese Website nutzt zur einheitlichen Darstellung Schriftarten von
-      Google Fonts, die beim Seitenaufruf von Servern von Google geladen
-      werden. Dabei wird deine IP-Adresse an Google übertragen; Google kann
-      diese ggf. protokollieren. Näheres unter
-      <a href="https://policies.google.com/privacy" class="inline-link" target="_blank" rel="noopener">policies.google.com/privacy</a>.
-      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
-      an einer einheitlichen, performanten Darstellung der Website).
+      Diese Website nutzt die Schriftarten Newsreader, IBM Plex Sans und
+      JetBrains Mono. Anders als bei vielen Websites üblich werden diese
+      <strong>nicht</strong> dynamisch von Google-Servern nachgeladen,
+      sondern liegen als Dateien direkt auf diesem Server. Beim Laden der
+      Schriften findet daher keine Datenübertragung an Google statt.
     </p>
 
     <h2>6. Hosting und Server-Logfiles</h2>
