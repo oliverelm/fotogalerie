@@ -7,18 +7,12 @@
     <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="styles.css">
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            background-color: #111; 
-            color: #fff; 
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background-color: #111; color: #fff; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Suchleiste oben -->
     <header style="padding: 30px 20px; text-align: center;">
         <h1 style="font-family: 'Playfair Display', Georgia, serif; margin-bottom: 20px;">Galerien</h1>
         <form id="search-form" style="position: relative; display: inline-block; width: 100%; max-width: 400px;">
@@ -27,18 +21,15 @@
         </form>
     </header>
 
-    <!-- Loading View -->
     <div id="view-loading" style="text-align: center; padding: 50px; color: #777;">
         <p id="loading-label">Wird geladen …</p>
     </div>
 
-    <!-- Error View -->
     <div id="view-error" class="hidden" style="text-align: center; padding: 50px; color: #ff6b6b;">
         <p id="error-label"></p>
         <button id="retry-btn" style="padding: 8px 16px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Erneut versuchen</button>
     </div>
 
-    <!-- Categories View -->
     <div id="view-categories">
         <nav id="breadcrumb-categories" style="padding: 10px 20px; color: #aaa;"></nav>
         <div style="padding: 20px;">
@@ -48,7 +39,6 @@
         </div>
     </div>
 
-    <!-- Category Detail View -->
     <div id="view-category-detail" class="hidden">
         <nav id="breadcrumb-detail" style="padding: 10px 20px; color: #aaa;"></nav>
         <div style="padding: 20px;">
@@ -59,7 +49,6 @@
         </div>
     </div>
 
-    <!-- Search View -->
     <div id="view-search" class="hidden">
         <div style="padding: 20px;">
             <p id="search-eyebrow" style="text-transform: uppercase; font-size: 0.8rem; color: #777; margin: 0;"></p>
@@ -68,12 +57,10 @@
         </div>
     </div>
 
-    <!-- Lightbox -->
     <div id="lightbox" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <button id="lightbox-close" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">✕</button>
         <button id="lightbox-prev" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">‹</button>
         <button id="lightbox-next" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">›</button>
-        
         <img id="lightbox-img" style="max-height: 75vh; max-width: 85vw; object-fit: contain;" alt="">
         <div style="margin-top: 15px; text-align: center; color: #ccc;">
             <p id="lightbox-caption" style="margin: 0 0 5px 0;"></p>
@@ -89,10 +76,8 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div id="toast" class="hidden" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #222; color: #fff; padding: 10px 20px; border-radius: 4px; border: 1px solid #444; z-index: 1100;"></div>
 
-    <!-- Skriptbindung -->
     <script src="app.js"></script>
 </body>
 </html>
