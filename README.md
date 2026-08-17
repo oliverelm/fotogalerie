@@ -38,18 +38,53 @@ anlegen:
 Danach im Vercel-Dashboard ein **Redeploy** auslösen (oder einfach neu
 pushen), damit die Variablen aktiv werden.
 
-## 3. Bilder verwalten — wie bisher
+## 3. Bilder verwalten — wie bisher, plus Unterkategorien
 
 Neue Kategorie = neuer Unterordner in `Fotowebseite`, neues Foto = Datei in
 den passenden Ordner hochladen. Erscheint automatisch beim nächsten Aufruf
 der Seite, kein erneutes Deployment nötig.
 
+**Unterkategorien:** Lege innerhalb eines Kategorie-Ordners einfach weitere
+Unterordner an, z. B. `Fotowebseite/Italien/Venedig` und
+`Fotowebseite/Italien/Rom`. Die Website erkennt automatisch, ob ein Ordner
+eigene Bilder oder weitere Unterordner enthält, und zeigt entsprechend
+entweder Bilder oder eine weitere Kategorie-Ebene an. Funktioniert beliebig
+tief verschachtelt.
+
+## 4. Neu: package.json mit hochladen
+
+Für die Länder-Erkennung (Suche) werden zwei kleine, offline arbeitende
+Bausteine benötigt. Dafür liegen jetzt `package.json` und
+`package-lock.json` im Hauptverzeichnis — die müssen mit ins GitHub-Repo
+hochgeladen werden (gleiche Ebene wie `index.html`). Vercel installiert die
+Bausteine beim Deployment automatisch, du musst dafür nichts weiter tun.
+Der lokale `node_modules`-Ordner (falls bei dir vorhanden) muss **nicht**
+mit hochgeladen werden.
+
 ---
+
+## Neue Funktionen im Überblick
+
+- **Unterkategorien:** siehe Punkt 3 oben.
+- **Suche:** Suchfeld oben rechts im Header der Galerie. Durchsucht
+  Dateiname, Bemerkung (Drive-Beschreibung) und automatisch erkanntes Land
+  über alle Kategorien und Unterkategorien hinweg. Läuft komplett offline
+  (keine Kartendienst-Anfrage pro Bild).
+- **Teilen:** In der Großansicht eines Bildes gibt es jetzt einen
+  "🔗 Teilen"-Button — kopiert einen Link, der beim Öffnen direkt das
+  jeweilige Bild in der Großansicht zeigt (inkl. funktionierender
+  Vor/Zurück-Navigation zu den Nachbarbildern).
 
 ## Technischer Überblick
 
-- `/api/categories` — listet Kategorien + Titelbild + Bildanzahl
-- `/api/category?id=…` — listet alle Bilder einer Kategorie
+- `/api/categories` (bzw. `?id=…`) — listet Kategorie-Kacheln einer Ebene;
+  funktioniert rekursiv für beliebig viele Unterkategorie-Ebenen
+- `/api/category?id=…` — listet alle Bilder einer "Blatt"-Kategorie (inkl.
+  automatisch erkanntem Land)
+- `/api/search?q=…` — durchsucht den kompletten Baum nach Titel, Bemerkung
+  und Land
+- `/api/image?id=…` — löst einen Teilen-Link auf (Bild + Geschwisterbilder
+  für die Pfeilnavigation)
 - `/api/download?id=…` — liefert die Originaldatei zum Download (einzige
   Stelle, die tatsächlich Bilddaten durch den Server schickt)
 - Vorschaubilder lädt der Browser **direkt von Google** (schnell, entlastet
