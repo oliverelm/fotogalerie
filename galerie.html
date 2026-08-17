@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie | Die Welt mit meinen Augen</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            background-color: #111; 
+            color: #fff; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Oberer Bereich mit Titel und Suchfeld */
+        header {
+            padding: 40px 20px 20px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 2.5rem;
+            margin: 0 0 20px 0;
+            letter-spacing: 1px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            background-color: #222;
+            border: 1px solid #444;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #888;
+        }
+
+        /* Kategorien-Grid (Große Bildkacheln) */
+        #kategorien-container {
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 25px; 
+            justify-content: center; 
+            padding: 0 20px 50px 20px;
+            flex: 1;
+        }
+
+        .card { 
+            background: #222; 
+            border-radius: 6px; 
+            width: 300px; 
+            height: 400px; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column;
+            text-align: left; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            cursor: pointer;
+            border: 1px solid #333;
+            background-size: cover; 
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+        }
+
+        .card-content {
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card h3 { 
+            margin: 0 0 5px 0; 
+            color: #fff; 
+            font-size: 1.4rem; 
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.9); 
+        }
+
+        .card p { 
+            margin: 0; 
+            color: #ddd; 
+            font-size: 0.85rem; 
+            letter-spacing: 1px; 
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9); 
+        }
+
+        /* Fußbereich (Footer) */
+        footer {
+            background-color: #0a0a0a;
+            color: #777;
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        footer span { color: #555; }
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Galerien</h1>
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Nach Kategorien oder Orten suchen..." onkeyup="filterCategories()">
+    </div>
+</header>
+
+<div id="kategorien-container">
+    <p style="text-align:center; color: #777;">Lade Galerien...</p>
+</div>
+
+<footer>
+    <div>© 2026 Oliver</div>
+    <span>·</span>
+    <a href="index.html">Home</a>
+    <a href="/impressum.html">Impressum</a>
+    <a href="/kontakt.html">Kontakt</a>
+    <a href="/lizenz.html">Lizenz</a>
+    <a href="/datenschutz.html">Datenschutz</a>
+</footer>
+
+<script>
+    let allCategories = [];
+
+    // Kategorien aus der API laden
+    async function loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            
+            if (data.categories) {
+                allCategories = data.categories;
+                displayCategories(allCategories);
+            }
+        } catch (error) {
+            document.getElementById('kategorien-container').innerHTML = "<p style='color:#ff6b6b;'>Fehler beim Laden der Galerien.</p>";
+        }
+    }
+
+    // Kategorien auf dem Bildschirm darstellen
+    function displayCategories(categories) {
+        const container = document.getElementById('kategorien-container');
+        container.innerHTML = ''; 
+
+        if (categories.length === 0) {
+            container.innerHTML = "<p style='color:#777;'>Keine Galerien gefunden.</p>";
+            return;
+        }
+
+        categories.forEach(cat => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.name = cat.name.toLowerCase();
+            
+            // Vorschaubild aus der API auslesen
+            const bgImg = cat.thumbnail || cat.coverUrl || cat.cover || cat.image || cat.url || '';
+            
+            if (bgImg) {
+                card.style.backgroundImage = `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.1) 100%), url('${bgImg}')`;
+            }
+            
+            card.innerHTML = `
+                <div class="card-content">
+                    <h3>${cat.name}</h3>
+                    <p>${cat.count || 0} BILDER</p>
+                </div>
+            `;
+            card.onclick = () => window.location.href = `/category?id=${cat.id}`;
+            container.appendChild(card);
+        });
+    }
+
+    // Suchfunktion für das Suchfeld
+    function filterCategories() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allCategories.filter(cat => cat.name.toLowerCase().includes(query));
+        displayCategories(filtered);
+    }
+
+    loadCategories();
+</script>
+
+</body>
+</html>
