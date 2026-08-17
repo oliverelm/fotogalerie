@@ -1,15 +1,13 @@
 // ============================================================
 // Fotogalerie — öffentlich, Bilder über eigene /api-Routen.
-// Unterstützt beliebig tief verschachtelte Unterkategorien, eine
-// Volltextsuche (Titel/Bemerkung/Land) und Teilen-Links für einzelne Bilder.
 // ============================================================
 
 let currentPath = [];           // [{id, name}, ...] — aktueller Kategorie-Pfad
-let currentImages = [];         // Bilder der aktuell offenen Ansicht (Kategorie, Suche oder Teilen-Link)
-let currentImagesLabel = "";    // Kontext-Label für Alt-Texte ("Italien", "Suchergebnisse", …)
+let currentImages = [];         // Bilder der aktuell offenen Ansicht
+let currentImagesLabel = "";    
 let currentLightboxIndex = -1;
-let lightboxTriggerEl = null;   // Element, das die Lightbox geöffnet hat (Fokus-Rückgabe)
-let preSearchState = null;      // { path, wasLeaf } — zum Zurückspringen nach der Suche
+let lightboxTriggerEl = null;   
+let preSearchState = null;      
 let searchDebounceTimer = null;
 
 // -------------------- Elemente --------------------
@@ -61,16 +59,21 @@ const el = {
 };
 
 function showView(name) {
-  Object.values(el.views).forEach((v) => v.classList.add("hidden"));
+  if (!el.views[name]) return;
+  Object.values(el.views).forEach((v) => {
+    if (v) v.classList.add("hidden");
+  });
   el.views[name].classList.remove("hidden");
 }
 
 function showError(message) {
+  if (!el.errorLabel) return;
   el.errorLabel.textContent = message;
   showView("error");
 }
 
 function showToast(message) {
+  if (!el.toast) return;
   el.toast.textContent = message;
   el.toast.classList.remove("hidden");
   clearTimeout(showToast._t);
@@ -80,6 +83,9 @@ function showToast(message) {
 // -------------------- Start --------------------
 
 window.addEventListener("load", () => {
+  // Sicherheits-Check: Wenn kein Grid da ist (z.B. auf der Home-Seite), abbrechen!
+  if (!el.categoryGrid) return;
+
   el.retryBtn.addEventListener("click", () => loadFolder(currentPath));
   el.backBtn.addEventListener("click", () => loadFolder(currentPath.slice(0, -1)));
 
@@ -143,7 +149,6 @@ async function init() {
   }
 }
 
-// Hält den Tastaturfokus innerhalb der geöffneten Lightbox (Focus-Trap).
 function trapFocusInLightbox(e) {
   const focusable = el.lightbox.querySelectorAll(
     'button, a[href], [tabindex]:not([tabindex="-1"])'
@@ -194,6 +199,7 @@ function getLocation(file) {
 // -------------------- Breadcrumb --------------------
 
 function renderBreadcrumb(navEl, path, onNavigate) {
+  if (!navEl) return;
   navEl.innerHTML = "";
 
   const rootCrumb = document.createElement(path.length === 0 ? "span" : "a");
