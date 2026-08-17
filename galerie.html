@@ -4,216 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galerie | Die Welt mit meinen Augen</title>
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             margin: 0; 
             background-color: #111; 
             color: #fff; 
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
-
-        /* Oberer Bereich mit Titel und Suchfeld */
-        header {
-            padding: 40px 20px 20px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-family: "Playfair Display", Georgia, serif;
-            font-size: 2.5rem;
-            margin: 0 0 20px 0;
-            letter-spacing: 1px;
-        }
-
-        .search-container {
-            margin-bottom: 30px;
-        }
-
-        .search-input {
-            width: 100%;
-            max-width: 400px;
-            padding: 12px 20px;
-            background-color: #222;
-            border: 1px solid #444;
-            border-radius: 25px;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: #888;
-        }
-
-        /* Kategorien-Grid (Große Bildkacheln) */
-        #kategorien-container {
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 25px; 
-            justify-content: center; 
-            padding: 0 20px 50px 20px;
-            flex: 1;
-        }
-
-        .card { 
-            background: #222; 
-            border-radius: 6px; 
-            width: 300px; 
-            height: 400px; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column;
-            text-align: left; 
-            transition: transform 0.3s, box-shadow 0.3s; 
-            cursor: pointer;
-            border: 1px solid #333;
-            background-size: cover; 
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        .card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-        }
-
-        .card-content {
-            margin-top: auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .card h3 { 
-            margin: 0 0 5px 0; 
-            color: #fff; 
-            font-size: 1.4rem; 
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.9); 
-        }
-
-        .card p { 
-            margin: 0; 
-            color: #ddd; 
-            font-size: 0.85rem; 
-            letter-spacing: 1px; 
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.9); 
-        }
-
-        /* Fußbereich (Footer) */
-        footer {
-            background-color: #0a0a0a;
-            color: #777;
-            text-align: center;
-            padding: 25px 20px;
-            font-size: 0.9rem;
-            border-top: 1px solid #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        footer span { color: #555; }
-        footer a {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        footer a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Galerien</h1>
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Nach Kategorien oder Orten suchen..." onkeyup="filterCategories()">
+    <!-- Suchleiste oben -->
+    <header style="padding: 30px 20px; text-align: center;">
+        <h1 style="font-family: 'Playfair Display', Georgia, serif; margin-bottom: 20px;">Galerien</h1>
+        <form id="search-form" style="position: relative; display: inline-block; width: 100%; max-width: 400px;">
+            <input type="text" id="search-input" placeholder="Nach Kategorien oder Orten suchen..." style="width: 100%; padding: 12px 20px; background: #222; border: 1px solid #444; border-radius: 25px; color: #fff; outline: none;">
+            <button type="button" id="search-clear" class="hidden" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #aaa; cursor: pointer;">✕</button>
+        </form>
+    </header>
+
+    <!-- Loading View -->
+    <div id="view-loading" style="text-align: center; padding: 50px; color: #777;">
+        <p id="loading-label">Wird geladen …</p>
     </div>
-</header>
 
-<div id="kategorien-container">
-    <p style="text-align:center; color: #777;">Lade Galerien...</p>
-</div>
+    <!-- Error View -->
+    <div id="view-error" class="hidden" style="text-align: center; padding: 50px; color: #ff6b6b;">
+        <p id="error-label"></p>
+        <button id="retry-btn" style="padding: 8px 16px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Erneut versuchen</button>
+    </div>
 
-<footer>
-    <div>© 2026 Oliver</div>
-    <span>·</span>
-    <a href="index.html">Home</a>
-    <a href="/impressum.html">Impressum</a>
-    <a href="/kontakt.html">Kontakt</a>
-    <a href="/lizenz.html">Lizenz</a>
-    <a href="/datenschutz.html">Datenschutz</a>
-</footer>
+    <!-- Categories View -->
+    <div id="view-categories">
+        <nav id="breadcrumb-categories" style="padding: 10px 20px; color: #aaa;"></nav>
+        <div style="padding: 20px;">
+            <p id="categories-eyebrow" style="text-transform: uppercase; font-size: 0.8rem; color: #777; margin: 0;"></p>
+            <h2 id="categories-title" style="font-size: 2rem; margin: 5px 0 20px 0;"></h2>
+            <div id="category-grid" style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; padding-bottom: 50px;"></div>
+        </div>
+    </div>
 
-<script>
-    let allCategories = [];
+    <!-- Category Detail View -->
+    <div id="view-category-detail" class="hidden">
+        <nav id="breadcrumb-detail" style="padding: 10px 20px; color: #aaa;"></nav>
+        <div style="padding: 20px;">
+            <button id="back-btn" style="background: none; border: none; color: #aaa; cursor: pointer; font-size: 1rem; margin-bottom: 15px;">← Zurück</button>
+            <h2 id="detail-title" style="font-size: 2rem; margin: 5px 0 5px 0;"></h2>
+            <p id="detail-count" style="color: #777; margin: 0 0 25px 0;"></p>
+            <div id="thumb-grid" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; padding-bottom: 50px;"></div>
+        </div>
+    </div>
 
-    // Kategorien aus der API laden
-    async function loadCategories() {
-        try {
-            const response = await fetch('/api/categories');
-            const data = await response.json();
-            
-            if (data.categories) {
-                allCategories = data.categories;
-                displayCategories(allCategories);
-            }
-        } catch (error) {
-            document.getElementById('kategorien-container').innerHTML = "<p style='color:#ff6b6b;'>Fehler beim Laden der Galerien.</p>";
-        }
-    }
+    <!-- Search View -->
+    <div id="view-search" class="hidden">
+        <div style="padding: 20px;">
+            <p id="search-eyebrow" style="text-transform: uppercase; font-size: 0.8rem; color: #777; margin: 0;"></p>
+            <h2 id="search-title" style="font-size: 2rem; margin: 5px 0 25px 0;"></h2>
+            <div id="search-grid" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; padding-bottom: 50px;"></div>
+        </div>
+    </div>
 
-    // Kategorien auf dem Bildschirm darstellen
-    function displayCategories(categories) {
-        const container = document.getElementById('kategorien-container');
-        container.innerHTML = ''; 
+    <!-- Lightbox -->
+    <div id="lightbox" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <button id="lightbox-close" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">✕</button>
+        <button id="lightbox-prev" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">‹</button>
+        <button id="lightbox-next" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">›</button>
+        
+        <img id="lightbox-img" style="max-height: 75vh; max-width: 85vw; object-fit: contain;" alt="">
+        <div style="margin-top: 15px; text-align: center; color: #ccc;">
+            <p id="lightbox-caption" style="margin: 0 0 5px 0;"></p>
+            <p id="lightbox-name-text" style="margin: 0; font-weight: bold;"></p>
+            <div style="margin-top: 10px; display: flex; gap: 15px; justify-content: center;">
+                <a id="lightbox-location-cell" class="hidden" href="#" target="_blank" style="color: #aaa; text-decoration: underline;"><span id="lightbox-location-text"></span></a>
+                <span id="lightbox-note-cell" class="hidden"><span id="lightbox-note-text"></span></span>
+            </div>
+            <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                <button id="lightbox-download" style="padding: 6px 12px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Download</button>
+                <button id="lightbox-share" style="padding: 6px 12px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Teilen</button>
+            </div>
+        </div>
+    </div>
 
-        if (categories.length === 0) {
-            container.innerHTML = "<p style='color:#777;'>Keine Galerien gefunden.</p>";
-            return;
-        }
+    <!-- Toast -->
+    <div id="toast" class="hidden" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #222; color: #fff; padding: 10px 20px; border-radius: 4px; border: 1px solid #444; z-index: 1100;"></div>
 
-        categories.forEach(cat => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.dataset.name = cat.name.toLowerCase();
-            
-            // Vorschaubild aus der API auslesen
-            const bgImg = cat.thumbnail || cat.coverUrl || cat.cover || cat.image || cat.url || '';
-            
-            if (bgImg) {
-                card.style.backgroundImage = `linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.1) 100%), url('${bgImg}')`;
-            }
-            
-            card.innerHTML = `
-                <div class="card-content">
-                    <h3>${cat.name}</h3>
-                    <p>${cat.count || 0} BILDER</p>
-                </div>
-            `;
-            card.onclick = () => window.location.href = `/category?id=${cat.id}`;
-            container.appendChild(card);
-        });
-    }
-
-    // Suchfunktion für das Suchfeld
-    function filterCategories() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allCategories.filter(cat => cat.name.toLowerCase().includes(query));
-        displayCategories(filtered);
-    }
-
-    loadCategories();
-</script>
-
+    <!-- Skriptbindung -->
+    <script src="app.js"></script>
 </body>
 </html>
