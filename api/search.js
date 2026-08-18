@@ -1,6 +1,7 @@
 // Sucht über den gesamten Bilderbestand (alle Kategorien + Unterkategorien)
 // nach einem Begriff — geprüft werden Dateiname, Bemerkung (Drive-
-// Beschreibung) und das aus GPS-Koordinaten erkannte Land.
+// Beschreibung), das aus GPS-Koordinaten erkannte Land, sowie der
+// Kategorie-/Unterkategorie-Pfad (z.B. "Italien" oder "Venedig").
 const { resolveRootFolderId, listSubfolders, crawlTree } = require("./_drive");
 const { countryFromLocation } = require("./_geo");
 
@@ -28,7 +29,7 @@ module.exports = async (req, res) => {
         return { ...img, country };
       })
       .filter((img) => {
-        const haystack = [img.name, img.description, img.country]
+        const haystack = [img.name, img.description, img.country, ...(img.breadcrumb || [])]
           .filter(Boolean)
           .join(" ")
           .toLowerCase();
