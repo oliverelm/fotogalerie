@@ -396,7 +396,11 @@ function runSearch(q) {
   doSearch(q);
 }
 
+let searchRequestId = 0;
+
 async function doSearch(q) {
+  const requestId = ++searchRequestId;
+
   el.searchEyebrow.textContent = "Suche";
   el.searchTitle.textContent = `Suche nach „${q}“`;
   el.searchGrid.innerHTML = "";
@@ -405,6 +409,7 @@ async function doSearch(q) {
   try {
     const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
     const data = await res.json();
+    if (requestId !== searchRequestId) return; // inzwischen überholt — verwerfen
     if (!res.ok) throw new Error(data.error || "Suche fehlgeschlagen.");
     const results = data.results || [];
 
@@ -421,6 +426,7 @@ async function doSearch(q) {
       el.searchGrid.appendChild(buildThumb(file, index, results, label));
     });
   } catch (e) {
+    if (requestId !== searchRequestId) return;
     el.searchGrid.innerHTML = `<p class="status-text error-text">${escapeHtml(
       e.message || "Suche fehlgeschlagen."
     )}</p>`;
