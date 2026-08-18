@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fotogalerie</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a href="#app" class="skip-link">Zum Inhalt springen</a>
+
+  <header class="topbar">
+    <a href="../index.html" class="brand" aria-label="Zur Startseite">
+      <span class="brand-mark">◆</span>
+      <span class="brand-name">Home</span>
+    </a>
+    <form id="search-form" class="search-form" role="search">
+      <input
+        id="search-input"
+        type="search"
+        class="search-input"
+        placeholder="Suche nach Titel, Bemerkung, Land …"
+        aria-label="Fotos durchsuchen"
+        autocomplete="off"
+      >
+      <button id="search-clear" type="button" class="search-clear hidden" aria-label="Suche zurücksetzen">✕</button>
+    </form>
+  </header>
+
+  <main id="app">
+
+    <!-- Zustand: lädt -->
+    <section id="view-loading" class="view">
+      <p class="status-text"><span id="loading-label">Sammlung wird geöffnet …</span></p>
+    </section>
+
+    <!-- Zustand: Fehler -->
+    <section id="view-error" class="view hidden">
+      <p class="status-text error-text" id="error-label"></p>
+      <button id="retry-btn" class="btn btn-ghost">Erneut versuchen</button>
+    </section>
+
+    <!-- Zustand: Kategorien / Unterkategorien (beliebige Verschachtelungsebene) -->
+    <section id="view-categories" class="view hidden">
+      <nav id="breadcrumb-categories" class="breadcrumb" aria-label="Kategorie-Pfad"></nav>
+      <div class="section-head">
+        <p class="eyebrow" id="categories-eyebrow">Kategorien</p>
+        <h2 id="categories-title">Kategorien</h2>
+      </div>
+      <div id="category-grid" class="category-grid"></div>
+    </section>
+
+    <!-- Zustand: Einzelne (Unter-)Kategorie mit Bildern -->
+    <section id="view-category-detail" class="view hidden">
+      <nav id="breadcrumb-detail" class="breadcrumb" aria-label="Kategorie-Pfad"></nav>
+      <button id="back-btn" class="btn btn-ghost back-btn">← Zurück</button>
+      <div class="section-head">
+        <p class="eyebrow" id="detail-count">— Bilder</p>
+        <h2 id="detail-title"></h2>
+      </div>
+      <div id="thumb-grid" class="thumb-grid"></div>
+    </section>
+
+    <!-- Zustand: Suchergebnisse -->
+    <section id="view-search" class="view hidden">
+      <div class="section-head">
+        <p class="eyebrow" id="search-eyebrow">Suche</p>
+        <h2 id="search-title">Suchergebnisse</h2>
+      </div>
+      <div id="search-grid" class="thumb-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- Lightbox für Großansicht -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Bild-Großansicht">
+    <button id="lightbox-close" class="lightbox-close" aria-label="Schließen">✕</button>
+    <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Vorheriges Bild">‹</button>
+    <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Nächstes Bild">›</button>
+    <div class="lightbox-inner">
+      <img id="lightbox-img" src="" alt="">
+      <p id="lightbox-caption" class="lightbox-caption"></p>
+      <div id="lightbox-info-bar" class="lightbox-info-bar">
+        <div id="lightbox-name-cell" class="lightbox-info-cell lightbox-info-name">
+          📄 <span id="lightbox-name-text"></span>
+        </div>
+        <button id="lightbox-download" class="lightbox-info-cell lightbox-info-btn">⬇ Original herunterladen</button>
+        <button id="lightbox-share" class="lightbox-info-cell lightbox-info-btn">🔗 Teilen</button>
+        <a id="lightbox-location-cell" class="lightbox-info-cell lightbox-info-link hidden" target="_blank" rel="noopener">
+          📍 <span id="lightbox-location-text"></span>
+        </a>
+        <div id="lightbox-note-cell" class="lightbox-info-cell lightbox-info-note hidden">
+          📝 <span id="lightbox-note-text"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kurze Bestätigung, z.B. nach "Link kopiert" -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+
+  <footer class="site-footer">
+    <span>© 2026 Oliver</span>
+    <span class="footer-sep">·</span>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../impressum.html">Impressum</a>
+      <a href="../kontakt.html">Kontakt</a>
+      <a href="../lizenz.html">Lizenz</a>
+      <a href="../datenschutz.html">Datenschutz</a>
+    </nav>
+  </footer>
+</body>
+</html>
