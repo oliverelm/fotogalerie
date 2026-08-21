@@ -126,12 +126,14 @@ async function buildFolderCards(parentId) {
       ]);
 
       if (childSubfolders.length > 0) {
-        // Hat selbst Unterkategorien: Anzahl/Titelbild aus der ersten
-        // Unterkategorie (bzw. rekursiv, falls die auch leer wäre) ableiten.
+        // Hat selbst Unterkategorien: Anzahl/Titelbild aus den Unterkategorien
+        // ableiten — alle gleichzeitig abfragen statt nacheinander.
+        const subImagesLists = await Promise.all(
+          childSubfolders.map((sub) => listImagesInFolder(sub.id))
+        );
         let count = images.length;
         let cover = images[0] ? images[0].thumbnailLink : null;
-        for (const sub of childSubfolders) {
-          const subImages = await listImagesInFolder(sub.id);
+        for (const subImages of subImagesLists) {
           count += subImages.length;
           if (!cover && subImages[0]) cover = subImages[0].thumbnailLink;
         }
