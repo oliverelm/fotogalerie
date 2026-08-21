@@ -1,8 +1,0 @@
-{
-  "name": "fotogalerie",
-  "private": true,
-  "dependencies": {
-    "@rapideditor/country-coder": "^5.1.0",
-    "i18n-iso-countries": "^7.14.0"
-  }
-}
