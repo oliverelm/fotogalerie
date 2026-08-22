@@ -32,7 +32,7 @@ function biggerThumbnail(link) {
   return link.replace(/=s\d+/, "=s1200");
 }
 
-function renderHtml({ title, description, image, redirectUrl }) {
+function renderHtml({ title, description, image, redirectUrl, shareUrl }) {
   const imageTags = image
     ? `<meta property="og:image" content="${escapeHtml(image)}">
 <meta name="twitter:image" content="${escapeHtml(image)}">`
@@ -47,7 +47,7 @@ function renderHtml({ title, description, image, redirectUrl }) {
 <meta property="og:site_name" content="${escapeHtml(SITE_NAME)}">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
-<meta property="og:url" content="${escapeHtml(redirectUrl)}">
+<meta property="og:url" content="${escapeHtml(shareUrl)}">
 ${imageTags}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(title)}">
@@ -63,6 +63,7 @@ ${imageTags}
 module.exports = async (req, res) => {
   const { type, id } = req.query;
   const origin = `https://${req.headers.host}`;
+  const shareUrl = `${origin}/teilen/${type === "kategorie" ? "kategorie" : "bild"}/${id}`;
   const fallbackRedirect =
     type === "kategorie"
       ? `${origin}/galerie/index.html?kategorie=${id}`
@@ -88,7 +89,7 @@ module.exports = async (req, res) => {
 
       res.status(200);
       res.end(
-        renderHtml({ title: `${title} — ${SITE_NAME}`, description, image, redirectUrl })
+        renderHtml({ title: `${title} — ${SITE_NAME}`, description, image, redirectUrl, shareUrl })
       );
       return;
     }
@@ -103,7 +104,7 @@ module.exports = async (req, res) => {
 
     res.status(200);
     res.end(
-      renderHtml({ title: `${categoryName} — ${SITE_NAME}`, description, image, redirectUrl })
+      renderHtml({ title: `${categoryName} — ${SITE_NAME}`, description, image, redirectUrl, shareUrl })
     );
   } catch (err) {
     // Auch bei einem Fehler trotzdem sinnvoll weiterleiten — nur eben ohne
@@ -116,6 +117,7 @@ module.exports = async (req, res) => {
         description: FALLBACK_DESCRIPTION,
         image: null,
         redirectUrl: fallbackRedirect,
+        shareUrl,
       })
     );
   }
