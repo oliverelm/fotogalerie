@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/teilen/bild/:id", "destination": "/api/share?type=bild&id=:id" },
-    { "source": "/teilen/kategorie/:id", "destination": "/api/share?type=kategorie&id=:id" }
+    { "source": "/teilen/kategorie/:id", "destination": "/api/share?type=kategorie&id=:id" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
   ]
 }
